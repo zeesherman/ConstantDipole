@@ -18,7 +18,9 @@ t_run = 1000 # run time
 N_image = 100 # number of image snapshots
 error = 1e-3  # desired error tolerance
 xi = 0.5  # Ewald splitting parameter
-fileprefix = "lambdainf_phi0.20_E3.5"  # prefix for output files
+
+# Construct the output file name
+fileprefix = 'lambdainf_N{}_phi{:.2f}_E{:.2f}'.format(N, phi, E)
 
 # Compute numbers of time steps
 N_rand = int(np.round(t_rand/dt))
@@ -30,13 +32,8 @@ diameter = 2.  # particle diameter
 radius = 1.  # particle radius; sets the length scale to be the particle radius
 gamma = 1.  # particle drag coefficient; sets the time scale to be the diffusion time
 
-# Other quantities
-L = (4.*math.pi*N/(3.*phi))**(1./3.)  # box dimension
-
-# Parameters for initializing system on a simple cubic lattice
-m = int(np.ceil(N**(1./3.)))  # smallest latticle dimension that can hold all of the particles
-a = L/m  # distance between lattice sites
-lo = -L/2.  # used to center the lattice about the origin
+# Box dimension
+L = (4.*math.pi*N/(3.*phi))**(1./3.)
 
 # Create a snapshot of an empty system
 context.initialize()
@@ -44,6 +41,11 @@ snapshot = data.make_snapshot(N=N, box=data.boxdim(L=L), particle_types=['A'])
 
 # Initialize the system from the snapshot
 system = init.read_snapshot(snapshot)
+
+# Parameters for initializing system on a simple cubic lattice
+m = int(np.ceil(N**(1./3.)))  # smallest latticle dimension that can hold all of the particles
+a = L/m  # distance between lattice sites
+lo = -L/2.  # used to center the lattice about the origin
 
 # Initialize a simple cubic array of particles
 for p in system.particles:
@@ -81,6 +83,6 @@ run(N_rand)
 # Set up sampling
 hoomd.dump.gsd(filename=fileprefix+'.gsd', period=N_imageperiod, group=all, overwrite=True)
 
-# Turn on the field and Run the simulation
+# Turn on the field and run the simulation
 constdip.enable()
 run(N_run+1)
