@@ -1,0 +1,44 @@
+-----FILE LIST-----
+
+ - README            : This file
+ - CMakeLists.txt    : main CMake configuration file for the ConstantDipole plugin
+ - FindHOOMD.cmake   : script to find a HOOMD-Blue installation to link against
+ - run.py	     : example script to run a simulation with the ConstantDipole plugin
+ - ConstantDipole    : directory containing Python, C++, and CUDA source code for the plugin
+    - ConstantDipole.h
+    - ConstantDipole.cc
+    - module.cc
+    - CMakeLists.txt
+    - __init__.py
+    - compute.py
+    - ConstantDipole.cu
+    - ConstantDipole.cuh
+
+-----SOFTWARE REQUIREMENTS-----
+
+The ConstantDipole plugin has been tested with:
+
+ - HOOMD 2.9.7, compiled in single-precision with CUDA
+ - CUDA 11.3
+ - Python 3.9.7
+
+The HOOMD installation must have GPU acceleration enabled and HOOMD must be compiled as a shared library for
+plugins to be built against it. HOOMD must be compiled in single-precision mode.
+
+-----COMPILING THE PLUGIN-----
+
+To compile this plugin, follow steps similar to those in compiling HOOMD-Blue.  Note that plugins can only be built
+against a hoomd build that has been installed via a package or compiled and then installed via 'make install'.
+Plugins can only be built against hoomd when it is built as a shared library.
+
+$ mkdir build
+$ cd build
+$ cmake ../
+$ make -j6
+$ make install
+
+By default, make install will install the plugin into
+/{hoomd-install}/hoomd/ConstantDipole
+where {hoomd-install} is the directory that hoomd was 'make install'ed into.
+The plugin can be imported into python as a module with
+import hoomd.ConstantDipole
