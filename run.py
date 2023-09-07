@@ -20,7 +20,7 @@ error = 1e-3  # desired error tolerance
 xi = 0.5  # Ewald splitting parameter
 
 # Construct the output file name
-fileprefix = 'lambdainf_N{}_phi{:.2f}_E{:.2f}'.format(N, phi, E)
+fileprefix = 'lambdainf_N{}_phi{:.2f}_E{:.2f}'.format(N, phi, E_0)
 
 # Compute numbers of time steps
 N_rand = int(np.round(t_rand/dt))
@@ -74,7 +74,7 @@ bd = md.integrate.brownian(group=all, kT=1, seed=datetime.now().microsecond)  # 
 bd.set_gamma('A', gamma=gamma)
 
 # Set up the constant dipole calculations
-constdip = hoomd.ConstantDipole.compute.ConstantDipole(group=all, conductivity=[lambda_p]*N, field=[0.0, 0.0, 1.0], xi=xi, errortol=error, fileprefix=fileprefix, period=N_image, constantdipoleflag=1)
+constdip = hoomd.ConstantDipole.compute.ConstantDipole(group=all, conductivity=[lambda_p]*N, field=[0.0, 0.0, E_0], gradient=[0.0, 0.0, 0.0], xi=xi, errortol=error, fileprefix=fileprefix, period=N_image, constantdipoleflag=1)
 
 # Randomize the particles as hard spheres
 constdip.disable()
