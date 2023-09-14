@@ -74,7 +74,7 @@ bd = md.integrate.brownian(group=all, kT=1, seed=datetime.now().microsecond)  # 
 bd.set_gamma('A', gamma=gamma)
 
 # Set up the constant dipole calculations
-constdip = hoomd.ConstantDipole.compute.ConstantDipole(group=all, conductivity=[lambda_p]*N, field=[0.0, 0.0, E_0], gradient=[0.0, 0.0, 0.0], xi=xi, errortol=error, fileprefix=fileprefix, period=N_image, constantdipoleflag=1)
+constdip = hoomd.ConstantDipole.compute.ConstantDipole(group=all, conductivity=[lambda_p]*N, field=[0.0, 0.0, E_0], gradient=[0.0, 0.0, 0.0], xi=xi, errortol=error, fileprefix=fileprefix, period=N_imageperiod, constantdipoleflag=1)
 
 # Randomize the particles as hard spheres
 constdip.disable()
